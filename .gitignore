@@ -1,0 +1,18 @@
+# IGNORAR BASES DE DATOS Y EXCEL REALES (Protección de Datos ACHS)
+datos/brutos/*
+datos/procesados/*
+*.xlsx
+*.xlsm
+*.csv
+*.parquet
+*.json
+*.duckdb
+*.db
+
+# Excepciones: Mantener las carpetas en GitHub
+!datos/brutos/.gitkeep
+!datos/procesados/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
