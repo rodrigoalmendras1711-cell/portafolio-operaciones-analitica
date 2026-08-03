@@ -74,7 +74,7 @@ Para normalizar la comparación entre unidades de distinto tamaño y severidad, 
 ![Página 1 - Vista Principal](assets/nlp_reclamos/01pagina1.png)
 
 <details>
-  <summary> <b>Despliega aquí para explorar el desglose de las 6 Páginas del Dashboard</b></summary>
+  <summary> <b>DESPLIEGA PARA EXPLORAR EL DESGLOSE DE LAS 6 PÁGINAS DEL DASHBOARD</b></summary>
 
 #### Página 1: Matriz Corporativa de Riesgo y Evaluación CASS
 * **Matriz de Riesgo Unificado (Scatter Plot):** Gráfico de dispersión cruzando la **TRU** vs. **ISR Promedio**, donde cada burbuja representa una unidad clínica. Permite identificar de un vistazo las áreas en la "Zona Roja" (alta tasa de reclamo y alta severidad).
@@ -180,7 +180,7 @@ Para alinear la visión comercial con la realidad operativa (S&OP - *Sales and O
 ![Página 1 - S&OP Imagenología](assets/sop_imagenologia/01pagina1.png)
 
 <details>
-  <summary> <b>Desplegar detalle analítico de las 6 páginas del Dashboard</b></summary>
+  <summary> <b>DESPLEGAR DETALLE DE LAS 6 PÁGINAS DEL DASHBOARD</b></summary>
 
 #### Página 1: Monitor de Saturación y Desempeño Global
 * **KPIs Directivos:** `RHO Global` (Saturación), `Brecha Real a ITMS` (Backlog a externalizar), `Factor de Agrupación` y `% Cumplimiento`.
@@ -217,7 +217,7 @@ Para alinear la visión comercial con la realidad operativa (S&OP - *Sales and O
 
 ---
 
-### 💻 Arquitectura del Pipeline y Scripts Computacionales
+### Arquitectura del Pipeline y Scripts Computacionales
 
 El sistema completo se ejecuta mediante una arquitectura modular en Python y SQL in-memory (DuckDB), ubicada en `scripts/sop_imagenologia/`:
 
@@ -306,7 +306,7 @@ $$\text{CL} = \exp(\mu_y), \quad \text{UCL} = \exp(\mu_y + 3\sigma_y), \quad \te
 ![Página 1 - Diagnóstico de Gestión Quirúrgica](assets/oee_pabellon/01pagina1.png)
 
 <details>
-  <summary><b>Desplegar desglose de las 5 Páginas del Dashboard</b></summary>
+  <summary><b>DESPLEGAR DESGLOSE DE LAS 5 PÁGINAS DEL DASHBOARD</b></summary>
 
 #### Página 1: Diagnóstico de Gestión Quirúrgica
 * **Tarjetas KPI Corporativas:** `% En Hora de Cirugía`, `Total Cirugías`, `% Efecto Cascada`, `Volumen Cx Cascadas`, `Días Horas Extra`, `CR Activo`.
