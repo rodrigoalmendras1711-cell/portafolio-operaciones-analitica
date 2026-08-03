@@ -19,9 +19,8 @@ logging.basicConfig(
 )
 
 CORRECCIONES_MANUALES = {
-    "noly": "noli", "yrene": "irene", "sra alba": "alba",
-    "cinthia": "cynthia", "cintia": "cynthia"
-}
+    
+} #aqui van las correciones manuales de nombres
 
 TITULOS_MEDICOS = [
     "doctor", "doctora", "dr", "doc", "dra", "enfermero", "enfermera", "tens", "kine", 
