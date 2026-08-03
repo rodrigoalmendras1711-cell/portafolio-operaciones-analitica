@@ -256,7 +256,7 @@ La gestión de quirófanos en instituciones de salud de alta complejidad represe
 #### 1. Tolerancia SLA y Clasificación de Duración
 Para evaluar el cumplimiento de la programación, se definió una holgura operativa explícita de $\pm 15$ minutos respecto al bloque asignado:
 * **Bajo Hora:** Cirugía finalizada más de 15 minutos antes de lo programado ($\Delta t < -15 \text{ min}$).
-* **En Hora:** Cirugía finalizada dentro del rango de tolerancia de $\pm 15$ minutos ($ -15 \text{ min} \le \Delta t \le +15 \text{ min}$).
+* **En Hora:** Cirugía finalizada dentro del rango de tolerancia de $\pm 15$ minutos ($-15 \text{ min} \le \Delta t \le +15 \text{ min}$).
 * **Atraso:** Cirugía que excede el bloque programado en más de 15 minutos ($\Delta t > +15 \text{ min}$).
 
 #### 2. Efecto Cascada
