@@ -1,3 +1,29 @@
+# Portafolio de Ingeniería Operacional y Analítica Avanzada
+
+Hola! Soy Rodrigo Almendras Muñoz, estudiante de Cuarto año de Ingeniería Civil Industrial de la Universidad del Bío-Bío.
+
+Este repositorio consolida la arquitectura de datos, modelos matemáticos y dashboards desarrollados durante mi práctica profesional en la **Subgerencia de Mejora Continua y Experiencia en Clínica del Sur (ACHS Salud)**, entre enero y marzo de 2026. 
+
+El objetivo principal de esta pasantía fue presentar una modernización de  la toma de decisiones gerenciales, migrando de una gestión reactiva basada en promedios históricos, a un ecosistema de **Inteligencia Operacional**. A través de la aplicación de Física de Operaciones, Modelos Estocásticos y Procesamiento de Lenguaje Natural (NLP), logramos visibilizar cuellos de botella, presentar la optimización de la capacidad instalada y automatizar el triage de riesgo legal.
+
+>  **Nota de Confidencialidad y Compliance:** 
+> Cumpliendo estrictamente con la Ley N° 20.584 (Derechos y Deberes del Paciente) y los acuerdos de confidencialidad institucionales, **absolutamente todos los datos presentados en este repositorio han sido rigurosamente enmascarados**:
+> * Las identidades del personal médico fueron seudonimizadas (`Funcionario_001`, `Cirujano 045`).
+> * Se aplicó un *hash* criptográfico y generación sintética a los RUTs de pacientes.
+> * Las variables de volumen, tiempos operacionales sufrieron una perturbación estocástica ($\pm 5\% - 20\%$) y las métricas financieras fueron inventadas, para proteger el secreto comercial de la clínica, manteniendo intacta la validez algorítmica y las distribuciones de probabilidad de los modelos.
+> * Las bases de datos crudas han sido excluidas de este repositorio; los scripts exponen únicamente la lógica matemática y la arquitectura de software.
+
+---
+
+## Stack Tecnológico y Metodologías
+* **Lenguajes y Procesamiento:** Python (Pandas, Numpy, RapidFuzz), SQL In-Memory (DuckDB) para cruces transaccionales masivos.
+* **Modelamiento Matemático:** Teoría de Colas (Ley de Kingman), Modelo de Capacidad Estocástica (Newsvendor / Ratio Crítico), Control Estadístico de Procesos (Reglas de Nelson, Transformación Log-Normal).
+* **Machine Learning & NLP:** Forecasting de demanda (Facebook Prophet, Ensemble Walk-Forward), Análisis de Sentimiento y *Fuzzy Matching* (Distancia de Levenshtein).
+* **Business Intelligence:** Power BI (DAX, Power Query) con diseño corporativo orientado a la toma de decisiones directivas.
+
+---
+---
+
 ## Proyecto 1: Sistema de Inteligencia de Clientes, NLP y Triage de Riesgo Operacional
 
 > **Nota de Seguridad:**
