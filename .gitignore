@@ -1,4 +1,4 @@
-# IGNORAR BASES DE DATOS, DATOS CRUDOS Y SALIDAS (Protección ACHS)
+# IGNORAR BASES DE DATOS, DATOS CRUDOS Y SALIDAS (Protección)
 data/*
 staging/*
 output/*
@@ -14,11 +14,22 @@ output/*
 *.parquet
 *.json
 
-# Excepciones: Mantener las carpetas vivas en GitHub usando .gitkeep
+# -------------------------------------------------------------
+# EXCEPCIONES: LO QUE SÍ DEBE SUBIR A GITHUB
+# -------------------------------------------------------------
+# Mantener las carpetas vivas en GitHub usando .gitkeep
 !data/.gitkeep
 !staging/.gitkeep
 !output/.gitkeep
 
+# PERMITIR CARPETA DE PORTAFOLIO Y SUS DATOS ANONIMIZADOS
+!portfolio_data/
+!portfolio_data/**
+!portfolio_data/**/*.parquet
+!portfolio_data/**/*.xlsx
+!portfolio_data/**/*.csv
+
+# -------------------------------------------------------------
 # Entornos virtuales y Python
 venv/
 env/
