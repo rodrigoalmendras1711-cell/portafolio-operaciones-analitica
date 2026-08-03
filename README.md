@@ -107,6 +107,105 @@ Los scripts correspondientes a este módulo están organizados en `scripts/nlp_r
 ---
 ---
 
+## Proyecto 2: S&OP, Forecasting Predictivo y Control de Capacidad en Imagenología (Ley de Kingman)
+
+> **Nota de Confidencialidad y Cumplimiento:**
+> En estricto rigor con las políticas de privacidad institucionales:
+> 1. Se enmascararon las identidades del cuerpo médico y se aplicó un hash criptográfico (MD5) a los RUTs de los pacientes.
+> 2. Los datos financieros y tarifarios presentan un ruido estocástico del $\pm 20\%$ (`np.random.uniform(0.80, 1.20)`). Esta ofuscación protege el secreto comercial de la clínica manteniendo intactas las distribuciones estadísticas y la validez matemática del modelo.
+> 3. **Desarrollo:** La orquestación del pipeline, modelos predictivos (Prophet) y scripts de enmascaramiento contaron con apoyo de IA para la optimización de código.
+
+---
+
+### Contexto Operativo y Problema de Negocio
+
+El departamento de Imagenología (Scanner, Resonancia, Rayos X) funciona como el cuello de botella central del flujo de pacientes. Históricamente, la planificación se basaba en el **Presupuesto Comercial** (una meta financiera desconectada de la capacidad técnica), lo que genera:
+
+1. **Quiebres sistemáticos de SLA (Lead Time):** Incapacidad de entregar informes médicos a tiempo.
+2. **El Dilema de Externalización (Trade-off Calidad vs. Velocidad):** Ante el colapso del flujo interno, la clínica se veía obligada a derivar masivamente exámenes a un proveedor externo (ITMS). Aunque ITMS es más económico y rápido, presenta una menor calidad en la revisión diagnóstica. El desafío era maximizar la utilización de los radiólogos internos (de mayor costo y velocidad variable, pero con excelencia clínica) sin saturar el sistema.
+3. **Asignación asimétrica de carga:** Falta de balanceo en la carga cognitiva de los radiólogos, provocando fatiga y subutilización de la capacidad instalada.
+
+---
+
+### Justificación Metodológica y Física de Operaciones
+
+Para alinear la visión comercial con la realidad operativa (S&OP - *Sales and Operations Planning*), se implementaron las siguientes metodologías de ingeniería:
+
+* **1. Puente S&OP (Factor de Agrupación Dinámico):**
+  Finanzas proyecta metas en **Prestaciones** (códigos de cobro), pero Operaciones consume capacidad en **Informes** (acto de lectura médica). Un paciente puede requerir 3 prestaciones (Tórax, Abdomen, Pelvis) que se consolidan en 1 solo Informe. Se desarrolló un algoritmo de cruce relacional (Carestream $\times$ MasterKey) que calcula un *Factor de Agrupación* para traducir matemáticamente metas de facturación a horas-médico reales.
+
+* **2. Teoría de Colas y Ecuación de Kingman:**
+  Se define el nivel de saturación del sistema como $\rho = \lambda / \mu$ (Demanda / Capacidad). La Ley de Kingman demuestra analíticamente que en sistemas con alta variabilidad, el tiempo de espera (*Lead Time*) crece de forma exponencial antes de llegar al 100% de saturación. Esto justifica gerencialmente por qué el sistema debe derivar a ITMS cuando la saturación interna supera el 50-70%, evitando el colapso de la cola.
+
+* **3. Algoritmos Predictivos (Prophet y Ensemble Walk-Forward):**
+  Para predecir el volumen de pacientes, se combinaron dos modelos: 
+  * Un **Modelo Ensemble (Grid Search)** que minimiza el Error Absoluto Medio (MAE) combinando pesos de Tendencia Histórica y Estacionalidad.
+  * Un **Modelo de Machine Learning (Prophet)** que captura la estacionalidad semanal, mensual y días feriados chilenos para proyectar el flujo táctico.
+
+* **4. Diccionario de Complejidad Cognitiva:**
+  Se parametrizó la carga mental de los radiólogos mediante una taxonomía:
+  * *Básica L1/L2:* Exámenes de rutina (ej. radiografías), bajo impacto en tiempo de lectura.
+  * *Compleja L1/L3:* Alta especialidad (ej. Resonancia, Scanner de múltiples zonas). Alta densidad cognitiva que consume el mayor tiempo del bloque médico.
+
+---
+
+### Interfaz Ejecutiva de Control (Power BI)
+
+![Página 1 - S&OP Imagenología](assets/sop_imagenologia/01pagina1.png)
+
+<details>
+  <summary> <b>Desplegar detalle analítico de las 6 páginas del Dashboard</b></summary>
+
+#### Página 1: Monitor de Saturación y Desempeño Global
+* **KPIs Directivos:** `RHO Global` (Saturación), `Brecha Real a ITMS` (Backlog a externalizar), `Factor de Agrupación` y `% Cumplimiento`.
+* **S&OP Core (Matriz):** Contraste por Modalidad entre la Demanda en Prestaciones (Comercial), la Demanda Proyectada de Informes (Operaciones) y la Capacidad Interna. Evidencia si el sistema soporta la meta financiera.
+![Página 1](assets/sop_imagenologia/01pagina1.png)
+
+#### Página 2: Desempeño Individual por Médico
+* **Matriz de Cuotas Estocásticas:** Cuotas de lectura dinámicas calculadas según la estacionalidad y el peso histórico del médico.
+* **Scatter Plot (Tasa de Atraso vs. Informes):** Identifica médicos de alto volumen pero baja puntualidad.
+* **Distribución de Estado SLA:** Gráficos de barras que auditan a cada doctor (Cumplido, Demora Leve, Demora Crítica).
+![Página 2](assets/sop_imagenologia/02pagina2.png)
+
+#### Página 3: Simulador y Motor de Asignación Bayesiana
+* **Probabilidad de Atraso Estocástica:** Al seleccionar `Doctor`, `Modalidad` y `Complejidad (L1 a L3)`, el motor devuelve la probabilidad matemática de que el examen se atrase.
+* **Heatmap de Riesgo Cognitivo:** Mapa de calor de especialistas cruzados por modalidad, evidenciando las fortalezas y puntos ciegos técnicos del equipo médico.
+![Página 3](assets/sop_imagenologia/03pagina3.png)
+
+#### Página 4: Comprobación Empírica de la Ley de Kingman
+* **Curva de Saturación vs. Lead Time:** Correlaciona empíricamente la Saturación del Sistema ($\rho$) con el Promedio de Lead Time. Demuestra físicamente por qué la clínica se ve obligada a derivar masivamente a ITMS mucho antes de llegar a su capacidad máxima teórica debido a la variabilidad clínica.
+![Página 4](assets/sop_imagenologia/04pagina4.png)
+
+#### Página 5: Planificación Maestra Anual (Forecast vs. Presupuesto)
+* **Contraste de Proyecciones:** Cruce entre el Forecast Analítico (Demanda Real) y el Presupuesto Clínico (Meta Comercial).
+* **Curva Anual de S&OP:** Modela la `Demanda Base` a lo largo del año, la `Capacidad Mensual Dinámica` y el `Presupuesto`.
+* **Radiografía por Modalidad:** Visualiza exactamente cuánto volumen se absorberá internamente y qué cuota representa la dependencia externa presupuestada.
+![Página 5](assets/sop_imagenologia/05pagina5.png)
+
+#### Página 6: Programación Táctica Semanal (Alerta Temprana Prophet)
+* **Matriz de Control Semanal:** Aterriza el Forecast anual a nivel semanal cruzando `Exámenes Esperados`, `Capacidad Interna` y `Derivación a ITMS Esperada`.
+* **Semáforo de Días Hábiles:** Alertas automatizadas por semanas cortas (feriados detectados por el modelo), sugiriendo la activación preventiva de la válvula de escape externa.
+![Página 6](assets/sop_imagenologia/06pagina6.png)
+
+</details>
+
+---
+
+### 💻 Arquitectura del Pipeline y Scripts Computacionales
+
+El sistema completo se ejecuta mediante una arquitectura modular en Python y SQL in-memory (DuckDB), ubicada en `scripts/sop_imagenologia/`:
+
+1. **`01_etl_pipeline.py`:** Pipeline principal que limpia bases de Carestream, explota modalidades compuestas y calcula los tiempos de ciclo (Lead Time) descontando fines de semana y feriados.
+2. **`02_puente_sop.py`:** Join transaccional entre el Datalake Operacional y Financiero (MK). Calcula el `Factor de Agrupación` iterando con una tolerancia de $\pm 1$ día entre la ejecución clínica y la facturación.
+3. **`03_orquestador_cuotas.py` & `06_forecast_anual.py`:** Modelamiento predictivo mediante *Grid Search* para minimizar el Error Absoluto Medio (MAE). Aplica *Walk-Forward Validation* combinando factores de tendencia, estacionalidad y decaimiento exponencial histórico.
+4. **`04_saturacion_kingman.py`:** Motor SQL (DuckDB) que calcula el índice $\rho$ de saturación estructural y extrae la proporción de *Backlog* (inventario pendiente heredado entre meses).
+5. **`05_motor_riesgo.py`:** Algoritmo que clasifica la complejidad cognitiva del examen (Básica L1 a Compleja L3) y calcula probabilidades de falla jerárquicas (Bayesianas) para la matriz de Smart Routing.
+6. **`07_forecast_prophet.py`:** Integración de **Machine Learning (Facebook Prophet)** para proyectar la demanda a 90 días, incorporando variables exógenas como feriados nacionales y estacionalidad multiplicativa.
+7. **`08_anonimizador_sop.py`:** Módulo de cumplimiento normativo (*Data Masking*). Aplica *Hasing* MD5 a identificadores de pacientes y ruido uniforme a la tabla de tarifas comerciales.
+
+---
+---
+
 ## Proyecto 3: Optimización Estocástica y Capacidad de Pabellón Quirúrgico (OEE, Newsvendor & SPC)
 
 > **Nota de Confidencialidad y Enmascaramiento de Datos:**
